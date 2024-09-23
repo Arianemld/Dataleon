@@ -6,7 +6,21 @@ import seaborn as sns
 from collections import Counter
 import matplotlib.pyplot as plt
 
+
 import pandas as pd
+
+import subprocess
+import sys
+
+def install(package):
+    subprocess.check_call([sys.executable, "-m", "pip", "install", package])
+
+# Installer matplotlib si non disponible
+try:
+    import matplotlib
+except ImportError:
+    install("matplotlib")
+
 
 # Choix de la page sur la sidebar
 page = st.sidebar.selectbox("Choisissez une page", ["Ariane Mailanandam", "Dataleon"])
@@ -16,10 +30,12 @@ if page == "Ariane Mailanandam":
     st.title("Bienvenue")
     st.markdown("""
     Bonjour! Je m'appelle **Ariane Mailanandam**, je suis actuellement en première année de master en Data Engineering à l'EFREI Paris. 
+    
 
     ### Tâche à réaliser :
     Ma tâche consiste à analyser un jeu de données fourni par votre entreprise et à présenter les résultats de l'analyse dans un rapport. Le jeu de données contient un ensemble de documents et des prédictions générées par vos API. 
     Vous trouverez sur ma sidebar une page dédiée à la présentation de mes résultats.
+
     """)
 
     st.sidebar.header("About me")
@@ -77,22 +93,22 @@ elif page == "Dataleon":
     st.write(f"Nombre d'entités Total : {total_count}")
     st.write(f"Nombre d'entités Sous-total : {subtotal_count}")
 
-    if total_count == 0 and subtotal_count == 0:
-        st.write("Aucune entité 'Total' ou 'Sous-total' n'a été trouvée dans les données.")
-    else:
-        if subtotal_count > 0:
-            labels = ['Total', 'Sous-total']
-            sizes = [total_count, subtotal_count]
-        else: 
-            labels = ['Total']
-            sizes = [total_count]
+    if subtotal_count > 0:
+        labels = ['Total', 'Sous-total']
+        sizes = [total_count, subtotal_count]
+    else: 
+        labels = ['Total']
+        sizes = [total_count]
 
-        fig, ax = plt.subplots()
-        ax.pie(sizes, labels=labels, autopct='%1.1f%%', startangle=90)
-        ax.axis('equal')  
-        plt.tight_layout()
-        st.pyplot(fig)
-        st.markdown("Dans l'ensemble des données, 59,2% des entités sont des Total et 40,8% sont des 'Sous-total'. Cela indique que la majorité des tickets possèdent un montant Total.")
+    #abels = ['Total', 'Sous-total']
+    #sizes = [total_count, subtotal_count] if subtotal_count > 0 else [total_count]  
+
+    fig, ax = plt.subplots()
+    ax.pie(sizes, labels=labels, autopct='%1.1f%%', startangle=90)
+    ax.axis('equal')  
+    plt.tight_layout()
+    st.pyplot(fig)
+    st.markdown("Dans l'ensemble des données,  59,2% des entités  sont des Total et 40,8% sont des 'Sous-total'. Cela indique que la majorité des tickets possèdent un montant Total.")
 
     # Etape 2: Chart image 
 
@@ -203,21 +219,17 @@ elif page == "Dataleon":
 
     sorted_entities = total_entity_count.most_common()
 
-    if len(sorted_entities) == 0:
-        st.write("Aucune entité trouvée dans les données.")
-    else:
-        entities = [entity for entity, count in sorted_entities]
-        frequencies = [count for entity, count in sorted_entities]
+    entities = [entity for entity, count in sorted_entities]
+    frequencies = [count for entity, count in sorted_entities]
 
-        st.write(f"L'entité la moins représentée est : {sorted_entities[-1][0]} avec {sorted_entities[-1][1]} occurrence(s).")
-        fig, ax = plt.subplots()
-        ax.bar(entities, frequencies)
-        ax.set_xlabel('Entité')
-        ax.set_ylabel('Fréquence')
-        ax.set_title('Fréquence des entités')
-        plt.xticks(rotation=90)
-        st.pyplot(fig)
-
+    st.write(f"L'entité la moins représentée est : {sorted_entities[-1][0]} avec {sorted_entities[-1][1]} occurrence(s).")
+    fig, ax = plt.subplots()
+    ax.bar(entities, frequencies)
+    ax.set_xlabel('Entité')
+    ax.set_ylabel('Fréquence')
+    ax.set_title('Fréquence des entités')
+    plt.xticks(rotation=90)
+    st.pyplot(fig)
     st.markdown("L'entité la moins représentée est **void_menu.price**.  Cette entité semble correspondre à des cas rares où un article de menu a été annulé ou supprimé du ticket ")
 
     # Etape 5 : Recommendation pour l'entraînement
