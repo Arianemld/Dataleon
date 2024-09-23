@@ -1,0 +1,4 @@
+libatlas-base-dev
+libpng-dev
+libjpeg-dev
+python3-matplotlib
