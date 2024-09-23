@@ -7,6 +7,19 @@ import seaborn as sns
 from collections import Counter
 import pandas as pd
 
+import subprocess
+import sys
+
+def install(package):
+    subprocess.check_call([sys.executable, "-m", "pip", "install", package])
+
+# Installer matplotlib si non disponible
+try:
+    import matplotlib
+except ImportError:
+    install("matplotlib")
+
+
 # Choix de la page sur la sidebar
 page = st.sidebar.selectbox("Choisissez une page", ["Ariane Mailanandam", "Dataleon"])
 
