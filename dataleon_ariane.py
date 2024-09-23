@@ -1,6 +1,7 @@
 import os
 import json
 import streamlit as st
+matplotlib.use('Agg')
 import numpy as np
 import seaborn as sns
 from collections import Counter
