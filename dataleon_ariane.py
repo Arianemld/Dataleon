@@ -106,6 +106,7 @@ elif page == "Dataleon":
     fig, ax = plt.subplots()
     ax.pie(sizes, labels=labels, autopct='%1.1f%%', startangle=90)
     ax.axis('equal')  
+    plt.tight_layout()
     st.pyplot(fig)
     st.markdown("Dans l'ensemble des données,  59,2% des entités  sont des Total et 40,8% sont des 'Sous-total'. Cela indique que la majorité des tickets possèdent un montant Total.")
 
