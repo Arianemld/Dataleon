@@ -1,10 +1,12 @@
 import os
 import json
 import streamlit as st
-import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns
 from collections import Counter
+import matplotlib.pyplot as plt
+
+
 import pandas as pd
 
 import subprocess
@@ -91,8 +93,15 @@ elif page == "Dataleon":
     st.write(f"Nombre d'entités Total : {total_count}")
     st.write(f"Nombre d'entités Sous-total : {subtotal_count}")
 
-    labels = ['Total', 'Sous-total']
-    sizes = [total_count, subtotal_count] if subtotal_count > 0 else [total_count]  
+    if subtotal_count > 0:
+        labels = ['Total', 'Sous-total']
+        sizes = [total_count, subtotal_count]
+    else: 
+        labels = ['Total']
+        sizes = [total_count]
+
+    #abels = ['Total', 'Sous-total']
+    #sizes = [total_count, subtotal_count] if subtotal_count > 0 else [total_count]  
 
     fig, ax = plt.subplots()
     ax.pie(sizes, labels=labels, autopct='%1.1f%%', startangle=90)
