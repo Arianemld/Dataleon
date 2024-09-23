@@ -9,19 +9,6 @@ import matplotlib.pyplot as plt
 
 import pandas as pd
 
-import subprocess
-import sys
-
-def install(package):
-    subprocess.check_call([sys.executable, "-m", "pip", "install", package])
-
-# Installer matplotlib si non disponible
-try:
-    import matplotlib
-except ImportError:
-    install("matplotlib")
-
-
 # Choix de la page sur la sidebar
 page = st.sidebar.selectbox("Choisissez une page", ["Ariane Mailanandam", "Dataleon"])
 
@@ -30,12 +17,10 @@ if page == "Ariane Mailanandam":
     st.title("Bienvenue")
     st.markdown("""
     Bonjour! Je m'appelle **Ariane Mailanandam**, je suis actuellement en première année de master en Data Engineering à l'EFREI Paris. 
-    
 
     ### Tâche à réaliser :
     Ma tâche consiste à analyser un jeu de données fourni par votre entreprise et à présenter les résultats de l'analyse dans un rapport. Le jeu de données contient un ensemble de documents et des prédictions générées par vos API. 
     Vous trouverez sur ma sidebar une page dédiée à la présentation de mes résultats.
-
     """)
 
     st.sidebar.header("About me")
@@ -100,13 +85,9 @@ elif page == "Dataleon":
         labels = ['Total']
         sizes = [total_count]
 
-    #abels = ['Total', 'Sous-total']
-    #sizes = [total_count, subtotal_count] if subtotal_count > 0 else [total_count]  
-
     fig, ax = plt.subplots()
     ax.pie(sizes, labels=labels, autopct='%1.1f%%', startangle=90)
     ax.axis('equal')  
-    plt.tight_layout()
     st.pyplot(fig)
     st.markdown("Dans l'ensemble des données,  59,2% des entités  sont des Total et 40,8% sont des 'Sous-total'. Cela indique que la majorité des tickets possèdent un montant Total.")
 
